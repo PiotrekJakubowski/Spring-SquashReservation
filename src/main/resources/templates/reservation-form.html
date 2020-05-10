@@ -1,0 +1,21 @@
+<html>
+<head>
+</head>
+
+<body>
+	<h3>Save Reservation</h3>
+	<form action="#" th:action="@{/reservation/save}" th:object="${reservation}" method="POST">
+	<input type="hidden" th:field="*{id}" /> 
+	<br>
+	<input type="number" min="1" th:field="*{court.id}" placeholder="Court" required/> 
+	<br>
+	<input type="datetime-local" th:field="*{date}" placeholder="Reservation Date" required/> 
+	<br>
+	<input type="text" th:field="*{client.id}" placeholder="Client ID" readonly/> 
+	<br>
+	<button type="submit">Save</button>
+	</form>
+	<hr>
+	<a th:href="@{'/reservation/clientReservations/' + ${clientId}}">Go Back To Reservation Page</a>
+</body>
+</html>

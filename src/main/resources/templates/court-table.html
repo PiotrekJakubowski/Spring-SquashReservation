@@ -1,0 +1,46 @@
+<html>
+<head>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+</head>
+
+<body>
+
+	<table>
+		<thead>
+			<tr>
+				<th>Id</th>
+				<th>Type</th>
+				<th>Sector</th>
+				<th>Court Actions</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${courts.empty}">
+				<td colspan="2">No Courts Available</td>
+			</tr>
+			<tr th:each="court : ${courts}">
+				<td><span th:text="${court.id}"> Id </span></td>
+				<td><span th:text="${court.type}"> First Name </span></td>
+				<td><span th:text="${court.sector}"> Last Name </span></td>
+				<td>
+				<a th:href="@{${court.id}}"> Edit </a> 
+				| 
+				<a th:href="@{'/court/delete/' + ${court.id}}" onclick="return confirm('Are you sure you want to delete the court?');"> Delete </a>
+                </td>
+			</tr>
+		</tbody>
+	</table>
+	
+	<hr>
+	<a th:href="@{'addCourt/'}">Add Court</a>
+	<br>
+	<a th:href="@{'/web/clients/'}"> Go Back To Client List </a>
+
+</body>
+</html>

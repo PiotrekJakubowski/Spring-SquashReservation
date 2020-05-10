@@ -1,0 +1,47 @@
+<html>
+<head>
+
+<style>
+table, th, td {
+  border: 1px solid black;
+}
+</style>
+
+</head>
+
+<body>
+
+	<table>
+		<thead>
+			<tr th:if="${!reservations.empty}">
+				<th>Id</th>
+				<th>Court ID</th>
+				<th>Date</th>
+				<th>Client ID</th>
+				<th>Reservation Action</th>
+			</tr>
+		</thead>
+		<tbody>
+			<tr th:if="${reservations.empty}">
+				<td colspan="2">No reservation found.</td>
+			</tr>
+			<tr th:each="reservation: ${reservations}">
+				<td><span th:text="${reservation.id}"> Id </span></td>
+				<td><span th:text="${reservation.court.id}"> Court ID </span></td>
+				<td><span th:text="${reservation.date}"> Date </span></td>
+				<td><span th:text="${reservation.client.id}"> Client ID </span></td>
+				<td>
+                <a th:href="@{'/reservation/updateReservation/' + ${reservation.id}}">Edit</a>
+                |
+                <a th:href="@{'/reservation/deleteReservation/' + ${reservation.id}}">Delete</a>
+              	</td>
+			</tr>
+		</tbody>
+	</table>
+	<hr>
+	<a th:href="@{'/reservation/addNewReservation/' + ${clientId}}">Add Reservation</a>
+	<hr>
+	<a th:href="@{'/web/clients'}">Go Back To Clients List</a>
+
+</body>
+</html>

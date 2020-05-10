@@ -1,0 +1,20 @@
+<html>
+<head>
+</head>
+
+<body>
+	<h3>Save Court</h3>
+	<form action="#" th:action="@{/court/save}" th:object="${court}" method="POST">
+	<br>
+	<input type="text" th:field="*{id}" placeholder="ID" readonly/> 
+	<br>
+	<input type="text" th:field="*{type}" placeholder="Type" required/> 
+	<br>
+	<input type="text" th:field="*{sector}" placeholder="Sector" required/> 
+	<br>
+	<button type="submit">Save</button>
+	</form>
+	<hr>
+	<a th:href="@{'/web/clients/'}">Go Back To Client List</a>
+</body>
+</html>
