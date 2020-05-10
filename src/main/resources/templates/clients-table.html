@@ -33,9 +33,9 @@ table, th, td {
 				<td><span th:text="${client.phoneNumber}"> Phone Number</span></td>
 				<td><span th:text="${client.email}"> Email </span></td>
 				<td>
-				<a th:href="@{'update/' + ${client.id}}">Edit</a> 
+				<a th:href="@{'/web/update/' + ${client.id}}">Edit</a> 
 				| 
-				<a th:href="@{'delete/' + ${client.id}}" onclick="return confirm('Are you sure you want to delete the reservation?');"> Delete</a>
+				<a th:href="@{'/web/delete/' + ${client.id}}" onclick="return confirm('Are you sure you want to delete the reservation?');"> Delete</a>
                 -----> 
                 <a th:href="@{'/web/clientReservations/' + ${client.id}}">Show Client Reservation</a>
                 </td>
@@ -45,7 +45,7 @@ table, th, td {
 	
 	<hr>
 	<a th:href="@{'addClient/'}">Add Client</a>
-	<br>
+	<hr>
 	<a th:href="@{'/court/courtInformation/'}"> See Courts </a>
 
 </body>

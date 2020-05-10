@@ -14,6 +14,7 @@ import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.master.thesis.mysql.mysqlapp.entity.Client;
 import com.master.thesis.mysql.mysqlapp.service.ClientService;
+import com.master.thesis.mysql.mysqlapp.service.ReservationService;
 
 @Controller
 @RequestMapping("/web")
@@ -21,6 +22,9 @@ public class ClientWebPageController {
 
 	@Autowired
 	ClientService clientService;
+	
+	@Autowired
+	ReservationService reservationService;
 
 	@GetMapping("/clients")
 	public String clientList(Model model) {
@@ -35,14 +39,11 @@ public class ClientWebPageController {
 	}
 
 	@GetMapping("/delete/{clientId}")
-	public String deleteClient(@PathVariable int clientId, Model model) {
+	public String deleteClient(@PathVariable int clientId) {
 
+		reservationService.deleteAllReservationsForClient(clientId);
+		
 		clientService.deleteClient(clientId);
-
-		List<Client> clientList = new ArrayList<Client>();
-		clientList = clientService.getClients();
-
-		model.addAttribute("clients", clientList);
 
 		System.out.println("Client id: " + clientId);
 

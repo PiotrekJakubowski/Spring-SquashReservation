@@ -20,4 +20,8 @@ public interface ReservationDAO {
 	
 	public void deleteReservation(int reservationId);
 	
+	public void deleteAllReservationsForClient(int clientId);
+	
+	public void deleteAllReservationsForCourt(int courtId);
+	
 }

@@ -86,4 +86,26 @@ public class ImplReservationDAO implements ReservationDAO {
 
 	}
 
+	@Override
+	public void deleteAllReservationsForClient(int clientId) {
+
+		Session session = entityManager.unwrap(Session.class);
+
+		Query theQuery = session.createQuery("delete from Reservation where client_id=:clientId");
+		theQuery.setParameter("clientId", clientId);
+
+		theQuery.executeUpdate();
+	}
+
+	@Override
+	public void deleteAllReservationsForCourt(int courtId) {
+
+		Session session = entityManager.unwrap(Session.class);
+
+		Query theQuery = session.createQuery("delete from Reservation where court_id=:courtId");
+		theQuery.setParameter("courtId", courtId);
+
+		theQuery.executeUpdate();
+	}
+
 }

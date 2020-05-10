@@ -64,14 +64,7 @@ public class CourtWebPageController {
 	@GetMapping("/delete/{courtId}")
 	public String deleteClient(@PathVariable int courtId, Model model) {
 
-		List<Reservation> courtReservations = reservationService.getCourtReservations(courtId);
-
-		if (!courtReservations.isEmpty()) {
-
-			for (Reservation reservation : courtReservations) {
-				reservationService.deleteReservation(reservation.getId());
-			}
-		}
+		reservationService.deleteAllReservationsForCourt(courtId);
 
 		courtService.deleteCourt(courtId);
 

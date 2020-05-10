@@ -57,4 +57,18 @@ public class ImplReservationService implements ReservationService {
 		return reservationDao.getCourtReservations(courtId);
 	}
 
+	@Override
+	@Transactional
+	public void deleteAllReservationsForClient(int clientId) {
+		reservationDao.deleteAllReservationsForClient(clientId);
+		
+	}
+
+	@Override
+	@Transactional
+	public void deleteAllReservationsForCourt(int courtId) {
+		reservationDao.deleteAllReservationsForCourt(courtId);
+		
+	}
+
 }
