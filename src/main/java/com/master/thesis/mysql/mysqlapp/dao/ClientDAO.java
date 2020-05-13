@@ -15,4 +15,6 @@ public interface ClientDAO {
 	public void updateClient(Client theClient);
 	
 	public void deleteClient(int clientId);
+	
+	public void deleteAllClients();
 }

@@ -108,4 +108,26 @@ public class ImplReservationDAO implements ReservationDAO {
 		theQuery.executeUpdate();
 	}
 
+	@Override
+	public void deleteAllReservations() {
+		
+		Session session = entityManager.unwrap(Session.class);
+
+		Query theQuery = session.createQuery("delete from Reservation");
+
+		theQuery.executeUpdate();
+		
+	}
+	
+	@Override
+	public void deleteRandomReservation() {
+		
+		Session session = entityManager.unwrap(Session.class);
+
+		Query theQuery = session.createSQLQuery("DELETE FROM Reservation ORDER BY RAND() LIMIT 1");
+
+		theQuery.executeUpdate();
+		
+	}
+
 }

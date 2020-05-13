@@ -24,4 +24,8 @@ public interface ReservationDAO {
 	
 	public void deleteAllReservationsForCourt(int courtId);
 	
+	public void deleteAllReservations();
+	
+	public void deleteRandomReservation();
+	
 }

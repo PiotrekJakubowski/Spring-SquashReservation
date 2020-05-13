@@ -44,9 +44,12 @@ table, th, td {
 	</table>
 	
 	<hr>
-	<a th:href="@{'addClient/'}">Add Client</a>
+	<a th:href="@{'/web/addClient'}">Add Client</a>
 	<hr>
 	<a th:href="@{'/court/courtInformation/'}"> See Courts </a>
-
+	<hr>
+	<a th:href="@{'/web/deleteAll'}"> Delete All Clients </a>
+	<hr>
+	<a th:href="@{'/web/deleteRandomReservation'}"> Delete Random Reservation </a>
 </body>
 </html>

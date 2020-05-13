@@ -16,4 +16,6 @@ public interface ClientService {
 	public void updateClient(Client theClient);
 	
 	public void deleteClient(int clientId);
+	
+	public void deleteAllClient();
 }

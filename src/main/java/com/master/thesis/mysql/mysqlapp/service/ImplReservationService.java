@@ -71,4 +71,16 @@ public class ImplReservationService implements ReservationService {
 		
 	}
 
+	@Override
+	@Transactional
+	public void deleteAllReservations() {
+		reservationDao.deleteAllReservations();
+	}
+	
+	@Override
+	@Transactional
+	public void deleteRandomReservation() {
+		reservationDao.deleteRandomReservation();
+	}
+
 }

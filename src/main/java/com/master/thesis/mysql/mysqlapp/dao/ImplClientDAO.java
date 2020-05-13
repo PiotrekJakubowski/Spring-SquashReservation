@@ -22,51 +22,59 @@ public class ImplClientDAO implements ClientDAO {
 		// get the current hibernate session
 		Session session = entityManager.unwrap(Session.class);
 
-		return session
-				.createQuery("from Client order by id", Client.class)
-				.getResultList();
+		return session.createQuery("from Client order by id", Client.class).getResultList();
 
 	}
 
 	@Override
 	public void saveClient(Client theClient) {
-		
+
 		Session session = entityManager.unwrap(Session.class);
-		
+
 		session.saveOrUpdate(theClient);
-		
+
 	}
-	
+
 	@Override
 	public void updateClient(Client theClient) {
-		
+
 		Session session = entityManager.unwrap(Session.class);
-		
+
 		session.update(theClient);
-		
+
 	}
 
 	@Override
 	public Client getClient(int clientId) {
-		
+
 		Session session = entityManager.unwrap(Session.class);
 
 		Client theClient = session.get(Client.class, clientId);
-		
+
 		return theClient;
 	}
 
 	@Override
 	public void deleteClient(int clientId) {
-		
+
 		Session session = entityManager.unwrap(Session.class);
 
-		Query theQuery =
-				session.createQuery("delete from Client where id=:clientId");
+		Query theQuery = session.createQuery("delete from Client where id=:clientId");
 		theQuery.setParameter("clientId", clientId);
-		
+
 		theQuery.executeUpdate();
-		
+
+	}
+
+	@Override
+	public void deleteAllClients() {
+
+		Session session = entityManager.unwrap(Session.class);
+
+		Query theQuery = session.createQuery("delete from Client");
+
+		theQuery.executeUpdate();
+
 	}
 
 }

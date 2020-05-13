@@ -23,5 +23,9 @@ public interface ReservationService {
 	public void deleteAllReservationsForClient(int clientId);
 	
 	public void deleteAllReservationsForCourt(int courtId);
+	
+	public void deleteAllReservations();
+	
+	public void deleteRandomReservation();
 
 }

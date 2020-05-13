@@ -22,7 +22,7 @@ public class ClientWebPageController {
 
 	@Autowired
 	ClientService clientService;
-	
+
 	@Autowired
 	ReservationService reservationService;
 
@@ -42,7 +42,7 @@ public class ClientWebPageController {
 	public String deleteClient(@PathVariable int clientId) {
 
 		reservationService.deleteAllReservationsForClient(clientId);
-		
+
 		clientService.deleteClient(clientId);
 
 		System.out.println("Client id: " + clientId);
@@ -50,41 +50,57 @@ public class ClientWebPageController {
 		return "redirect:/web/clients";
 	}
 
+	@GetMapping("/deleteAll")
+	public String deleteAllClients() {
+
+		reservationService.deleteAllReservations();
+		clientService.deleteAllClient();
+
+		return "redirect:/web/clients";
+	}
+	
+	@GetMapping("/deleteRandomReservation")
+	public String deleteClient() {
+
+		reservationService.deleteRandomReservation();
+
+		return "redirect:/web/clients";
+	}
+
 	@GetMapping("/update/{clientId}")
 	public String updateClientForm(@PathVariable int clientId, Model model) {
-		//reload1
 		Client client = clientService.getClient(clientId);
-		
+
 		model.addAttribute("client", client);
-		
+
 		return "client-form";
-		
+
 	}
-	
+
 	@PostMapping("/clientSave")
 	public String saveClient(@ModelAttribute("client") Client theClient) {
-		
+
 		clientService.saveClient(theClient);
-		
+
 		return "redirect:/web/clients";
-		
+
 	}
-	
+
 	@GetMapping("/addClient")
 	public String addClient(Model model) {
-		
+
 		Client client = new Client();
-		
+
 		model.addAttribute("client", client);
-		
+
 		return "client-form";
-		
+
 	}
-	
+
 	@GetMapping("/clientReservations/{clientId}")
 	public String openClientReservations(@PathVariable int clientId) {
 		System.out.println("ClientId: " + clientId);
 		return "redirect:/reservation/clientReservations/" + clientId;
 	}
-	
+
 }

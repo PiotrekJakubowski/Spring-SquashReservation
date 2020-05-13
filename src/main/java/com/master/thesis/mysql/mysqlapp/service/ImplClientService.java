@@ -48,6 +48,14 @@ public class ImplClientService implements ClientService {
 		
 	}
 
+	@Override
+	@Transactional
+	public void deleteAllClient() {
+		
+		clientDao.deleteAllClients();
+		
+	}
+
 	
 	
 }
