@@ -1,6 +1,7 @@
 package com.master.thesis.mysql.mysqlapp.restControllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,43 +14,37 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.master.thesis.mysql.mysqlapp.entity.Client;
+import com.master.thesis.mysql.mysqlapp.repository.ClientRepository;
 import com.master.thesis.mysql.mysqlapp.service.ClientService;
 
 @RestController
 @RequestMapping("/api")
-public class ClientRestController {
-
+public class ClientRestController {	
 	@Autowired
-	ClientService clientService;
-
+	ClientRepository clientRepository;
+	
 	@GetMapping("/clients")
-	public List<Client> getClients() {
-
-		return clientService.getClients();
+	public Iterable<Client> getClients() {
+		return clientRepository.findAll();
 	}
 	
 	@GetMapping("/clients/{clientId}")
-	public Client getClient(@PathVariable int clientId) {
-		
-		return clientService.getClient(clientId);
-		
+	public Optional<Client> getClient(@PathVariable int clientId) {
+		return clientRepository.findById(clientId);		
 	}
 
 	@PostMapping("/clients")
 	public Client addClient(@RequestBody Client theClient) {
-
-		// set id to 0 force to save a new item and not to update it
 		theClient.setId(0);
-
-		clientService.saveClient(theClient);
-
+		clientRepository.save(theClient);
 		return theClient;
 	}
 	
 	@PutMapping("/clients")
 	public Client updateClient(@RequestBody Client theClient) {
 		
-		clientService.updateClient(theClient);
+		clientRepository.save(theClient);
+		//clientService.updateClient(theClient);
 		
 		return theClient;
 		
@@ -58,13 +53,15 @@ public class ClientRestController {
 	@DeleteMapping("/clients/{clientId}")
 	public String deleteClient(@PathVariable int clientId) {
 		
-		Client theClient = clientService.getClient(clientId);
+		/*Client theClient = clientService.getClient(clientId);
 		
 		if (theClient == null) {
 			return "Set proper client id to remove";
 		}
 		
-		clientService.deleteClient(clientId);
+		clientService.deleteClient(clientId);*/
+		
+		clientRepository.deleteById(clientId);
 		
 		return "Client with id: " + clientId + " removed";
 		

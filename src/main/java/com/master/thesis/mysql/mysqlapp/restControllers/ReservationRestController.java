@@ -43,7 +43,7 @@ public class ReservationRestController {
 		
 	}
 	
-	@PostMapping("/reservations")
+	@PostMapping("/createReservation")
 	public Reservation saveReservation(@RequestBody Reservation reservation) {
 
 		reservation.setId(0);

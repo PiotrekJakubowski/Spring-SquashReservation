@@ -1,6 +1,6 @@
 package com.master.thesis.mysql.mysqlapp.restControllers;
 
-import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.DeleteMapping;
@@ -13,25 +13,34 @@ import org.springframework.web.bind.annotation.RequestMapping;
 import org.springframework.web.bind.annotation.RestController;
 
 import com.master.thesis.mysql.mysqlapp.entity.Court;
+import com.master.thesis.mysql.mysqlapp.repository.CourtRepository;
 import com.master.thesis.mysql.mysqlapp.service.CourtService;
+import com.master.thesis.mysql.mysqlapp.service.ReservationService;
 
 @RestController
 @RequestMapping("/api")
 public class CourtRestController {
 
+	CourtRepository courtRepository;
+	ReservationService reservationService;
+
 	@Autowired
-	CourtService courtService;
+	public CourtRestController(CourtRepository courtRepository, ReservationService reservationService) {
+		this.courtRepository = courtRepository;
+		this.reservationService = reservationService;
+	}
+	
 
 	@GetMapping("/courts")
-	public List<Court> getCourts() {
+	public Iterable<Court> getCourts() {
 
-		return courtService.getCourts();
+		return courtRepository.findAll();
 	}
 
 	@GetMapping("/courts/{courtId}")
-	public Court getCourt(@PathVariable int courtId) {
+	public Optional<Court> getCourt(@PathVariable int courtId) {
 
-		return courtService.getCourt(courtId);
+		return courtRepository.findById(courtId);
 
 	}
 
@@ -41,16 +50,16 @@ public class CourtRestController {
 		// set id to 0 force to save a new item and not to update it
 		theCourt.setId(0);
 
-		courtService.saveCourt(theCourt);
-
+		courtRepository.save(theCourt);
+		
 		return theCourt;
 	}
 
 	@PutMapping("/courts")
 	public Court updateCourt(@RequestBody Court theCourt) {
 		
-		courtService.updateCourt(theCourt);
-
+		courtRepository.save(theCourt);
+		
 		return theCourt;
 
 	}
@@ -58,13 +67,15 @@ public class CourtRestController {
 	@DeleteMapping("/courts/{courtId}")
 	public String deleteCourt(@PathVariable int courtId) {
 
-		Court theCourt = courtService.getCourt(courtId);
+		Optional<Court> theCourt = courtRepository.findById(courtId);
 
 		if (theCourt == null) {
 			return "Set proper court id to remove";
 		}
+		
+		reservationService.deleteAllReservationsForCourt(courtId);
 
-		courtService.deleteCourt(courtId);
+		courtRepository.deleteById(courtId);
 
 		return "Court with id: " + courtId + " removed";
 

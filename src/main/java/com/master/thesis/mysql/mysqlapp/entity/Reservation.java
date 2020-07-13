@@ -9,6 +9,8 @@ import javax.persistence.JoinColumn;
 import javax.persistence.ManyToOne;
 import javax.persistence.OneToOne;
 import javax.persistence.Table;
+import java.time.LocalDate;
+import java.util.Date;
 
 @Entity
 @Table(name="reservation")
@@ -24,7 +26,7 @@ public class Reservation {
 	private Court court;
 	
 	@Column(name = "reservation_date")
-	private String date;
+	private LocalDate date;
 	
 	@ManyToOne
     @JoinColumn(name="client_id")
@@ -32,7 +34,7 @@ public class Reservation {
 	
 	public Reservation() {}
 
-	public Reservation(Court court, String date, Client client) {
+	public Reservation(Court court, LocalDate date, Client client) {
 		super();
 		this.court = court;
 		this.date = date;
@@ -55,11 +57,11 @@ public class Reservation {
 		this.court = court;
 	}
 
-	public String getDate() {
+	public LocalDate getDate() {
 		return date;
 	}
 
-	public void setDate(String date) {
+	public void setDate(LocalDate date) {
 		this.date = date;
 	}
 
@@ -73,7 +75,7 @@ public class Reservation {
 
 	@Override
 	public String toString() {
-		return "ReservationDetails [id=" + id + ", court=" + court + ", date=" + date + ", client=" + client + "]";
+		return "ReservationDetails [id=" + id + ", court=" + court + ", date=" + date.toString() + ", client=" + client + "]";
 	}
 	
 }

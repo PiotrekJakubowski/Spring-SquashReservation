@@ -5,6 +5,7 @@
 <body>
 	<h3>Save Court</h3>
 	<form action="#" th:action="@{/court/save}" th:object="${court}" method="POST">
+	<input type="hidden" th:field="*{id}" /> 
 	<br>
 	<input type="text" th:field="*{type}" placeholder="Type" required/> 
 	<br>

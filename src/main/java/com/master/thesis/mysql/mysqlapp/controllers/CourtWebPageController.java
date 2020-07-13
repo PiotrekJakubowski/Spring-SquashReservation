@@ -1,6 +1,7 @@
 package com.master.thesis.mysql.mysqlapp.controllers;
 
 import java.util.List;
+import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Controller;
@@ -12,6 +13,7 @@ import org.springframework.web.bind.annotation.PostMapping;
 import org.springframework.web.bind.annotation.RequestMapping;
 
 import com.master.thesis.mysql.mysqlapp.entity.Court;
+import com.master.thesis.mysql.mysqlapp.repository.CourtRepository;
 import com.master.thesis.mysql.mysqlapp.service.CourtService;
 import com.master.thesis.mysql.mysqlapp.service.ReservationService;
 
@@ -19,63 +21,48 @@ import com.master.thesis.mysql.mysqlapp.service.ReservationService;
 @RequestMapping("/court")
 public class CourtWebPageController {
 
-	@Autowired
-	CourtService courtService;
+    ReservationService reservationService;
+    CourtRepository courtRepository;
 
-	@Autowired
-	ReservationService reservationService;
+    @Autowired
+    public CourtWebPageController(ReservationService reservationService, CourtRepository courtRepository) {
+		this.reservationService = reservationService;
+		this.courtRepository = courtRepository;
+    }
 
-	@GetMapping("/courtInformation")
-	public String displayAllCourst(Model model) {
+    @GetMapping("/courtInformation")
+    public String displayAllCourst(Model model) {
+        List<Court> theCourts = (List<Court>) courtRepository.findAll();
+        model.addAttribute("courts", theCourts);
+        return "court-table";
 
-		List<Court> theCourts = courtService.getCourts();
+    }
 
-		model.addAttribute("courts", theCourts);
+    @GetMapping("/courtInformation/{courtId}")
+    public String displayCourt(@PathVariable int courtId, Model model) {
+        Optional<Court> court = courtRepository.findById(courtId);
+        model.addAttribute("court", court);
+        return "court-form";
+    }
 
-		return "court-table";
+    @PostMapping("/save")
+    public String saveCourt(@ModelAttribute("court") Court court) {
+        courtRepository.save(court);
+        return "redirect:/court/courtInformation/";
+    }
 
-	}
+    @GetMapping("/delete/{courtId}")
+    public String deleteCourt(@PathVariable int courtId, Model model) {
+        reservationService.deleteAllReservationsForCourt(courtId);
+        courtRepository.deleteById(courtId);
+        return "redirect:/court/courtInformation";
+    }
 
-	@GetMapping("/courtInformation/{courtId}")
-	public String displayCourt(@PathVariable int courtId, Model model) {
-
-		Court court = courtService.getCourt(courtId);
-
-		System.out.println("Court: " + court);
-
-		model.addAttribute("court", court);
-
-		return "court-form";
-	}
-
-	@PostMapping("/save")
-	public String saveCourt(@ModelAttribute("court") Court court) {
-
-		courtService.saveCourt(court);
-
-		return "redirect:/court/courtInformation/";
-
-	}
-
-	@GetMapping("/delete/{courtId}")
-	public String deleteClient(@PathVariable int courtId, Model model) {
-
-		reservationService.deleteAllReservationsForCourt(courtId);
-
-		courtService.deleteCourt(courtId);
-
-		return "redirect:/court/courtInformation";
-	}
-	
-	@GetMapping("/addCourt")
-	public String addCourt(Model model) {
-		
-		Court court = new Court();
-		
-		model.addAttribute("court", court);
-		
-		return "court-form";
-		
-	}
+    @GetMapping("/addCourt")
+    public String addCourt(Model model) {
+        Court court = new Court();
+        model.addAttribute("court", court);
+        return "court-form";
+    }
 
 }
