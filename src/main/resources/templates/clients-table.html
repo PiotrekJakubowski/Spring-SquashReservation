@@ -1,19 +1,34 @@
 <html>
 <head>
 
-<style>
-table, th, td {
-  border: 1px solid black;
-}
-</style>
+	<link th:href="@{/styles/main.css}" rel="stylesheet" />
 
 </head>
 
 <body>
+<script type="text/javascript" th:src="@{/js/actions.js}"></script>
+
+<div class="container">
+
+<div class="navbar">
+	<a th:href="@{'/web/addClient'}">Add Client</a>
+	<a th:href="@{'/court/courtInformation/'}">Show Courts</a>
+	<div class="dropdown">
+		<button class="dropbtn">External Methods
+			<i class="fa fa-caret-down"></i>
+		</button>
+		<div class="dropdown-content">
+			<a th:href="@{'/web/deleteAll'}" onclick="return confirm('Are you sure you want to delete all clients?');">Delete All Clients</a>
+			<a th:href="@{'/web/deleteRandomReservation'}" onclick="return confirm('Are you sure you want to delete random reservation?');">Delete Random Reservation</a>
+		</div>
+	</div>
+</div>
+
+<div class="clientsTable">
 	<table>
 		<thead>
 			<tr>
-				<th>Id</th>
+				<th>ID</th>
 				<th>First Name</th>
 				<th>Last Name</th>
 				<th>Phone Number</th>
@@ -41,14 +56,7 @@ table, th, td {
 			</tr>
 		</tbody>
 	</table>
-	
-	<hr>
-	<a th:href="@{'/web/addClient'}">Add Client</a>
-	<hr>
-	<a th:href="@{'/court/courtInformation/'}"> See Courts </a>
-	<hr>
-	<a th:href="@{'/web/deleteAll'}"> Delete All Clients </a>
-	<hr>
-	<a th:href="@{'/web/deleteRandomReservation'}"> Delete Random Reservation </a>
+</div>
+
 </body>
 </html>

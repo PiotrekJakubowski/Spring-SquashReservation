@@ -1,5 +1,7 @@
 package com.master.thesis.mysql.mysqlapp.entity;
 
+import org.springframework.format.annotation.DateTimeFormat;
+
 import javax.persistence.Column;
 import javax.persistence.Entity;
 import javax.persistence.GeneratedValue;
@@ -20,18 +22,19 @@ public class Reservation {
 	@GeneratedValue(strategy = GenerationType.IDENTITY)
 	@Column(name = "id")
 	private int id;
-	
+
 	@OneToOne
 	@JoinColumn(name="court_id")
 	private Court court;
-	
+
 	@Column(name = "reservation_date")
+	@DateTimeFormat(pattern = "yyyy-MM-dd")
 	private LocalDate date;
-	
+
 	@ManyToOne
     @JoinColumn(name="client_id")
     private Client client;
-	
+
 	public Reservation() {}
 
 	public Reservation(Court court, LocalDate date, Client client) {
@@ -77,5 +80,5 @@ public class Reservation {
 	public String toString() {
 		return "ReservationDetails [id=" + id + ", court=" + court + ", date=" + date.toString() + ", client=" + client + "]";
 	}
-	
+
 }
