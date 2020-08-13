@@ -5,6 +5,7 @@ import java.util.List;
 import java.util.Optional;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Controller;
 import org.springframework.ui.Model;
 import org.springframework.web.bind.annotation.GetMapping;
@@ -17,6 +18,8 @@ import com.master.thesis.mysql.mysqlapp.entity.Client;
 import com.master.thesis.mysql.mysqlapp.repository.ClientRepository;
 import com.master.thesis.mysql.mysqlapp.service.ClientService;
 import com.master.thesis.mysql.mysqlapp.service.ReservationService;
+
+import javax.servlet.http.HttpServletRequest;
 
 @Controller
 @RequestMapping("/web")
@@ -32,10 +35,22 @@ public class ClientWebPageController {
 	}
 
 	@GetMapping("/clients")
-	public String clientList(Model model) {
-		List<Client> clientList = new ArrayList<>();
-		clientList = (List<Client>) clientRepository.findAll();
-		model.addAttribute("clients", clientList);
+	public String clientList(HttpServletRequest request, Model model) {
+		int page = 0; //default page number is 0 (yes it is weird)
+		int size = 10; //default page size is 10
+
+		if (request.getParameter("page") != null && !request.getParameter("page").isEmpty()) {
+			page = Integer.parseInt(request.getParameter("page")) - 1;
+		}
+
+		if (request.getParameter("size") != null && !request.getParameter("size").isEmpty()) {
+			size = Integer.parseInt(request.getParameter("size"));
+		}
+
+		//List<Client> clientList = new ArrayList<>();
+		//clientList = (List<Client>) clientRepository.findAll(PageRequest.of(page, size));
+		System.out.println("Add attribute to model");
+		model.addAttribute("clients", clientRepository.findAll(PageRequest.of(page, size)));
 		return "clients-table";
 	}
 	
